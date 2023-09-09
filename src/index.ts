@@ -1,7 +1,8 @@
-import * as express from "express";
-import * as dotenv from "dotenv";
+import express from "express";
+import { config } from "dotenv";
 
-dotenv.config();
+console.log(process.env.NODE_ENV);
+config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
 const port = process.env.PORT;
