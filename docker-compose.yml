@@ -1,0 +1,16 @@
+services:
+  app:
+    restart: always
+    build: .
+    ports:
+      - 3000:3033
+    volumes:
+      - ./:/code
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+volumes:
+ mongodb:
