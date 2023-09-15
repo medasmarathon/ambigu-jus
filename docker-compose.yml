@@ -5,7 +5,7 @@ services:
     ports:
       - 3000:3033
     volumes:
-      - ./:/code
+      - ambigu-data:/data/db
   mongo:
     image: mongo
     ports:
@@ -13,4 +13,4 @@ services:
     volumes:
       - mongodb:/data/db
 volumes:
- mongodb:
+ ambigu-data:
