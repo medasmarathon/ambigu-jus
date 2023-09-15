@@ -4,13 +4,11 @@ services:
     build: .
     ports:
       - 3000:3033
-    volumes:
-      - ambigu-data:/data/db
   mongo:
     image: mongo
     ports:
       - 27017:27017
     volumes:
-      - mongodb:/data/db
+      - ambigu-data:/data/db
 volumes:
  ambigu-data:
