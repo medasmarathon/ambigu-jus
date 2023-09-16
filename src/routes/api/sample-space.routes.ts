@@ -1,14 +1,14 @@
 import { ApiError, getErrorMessage } from "@app/infrastructure/utility/api-error";
 import { SampleSpace } from "@app/models/sample-space";
 import { create, getById, update } from "@app/repositories/sample-space.repo";
-import { Router } from "express";
+import express from "express";
 
-const sampleSpaceRouter = Router();
+const sampleSpaceRouter = express.Router();
 
-sampleSpaceRouter.get<{ id: string }, SampleSpace, {}>(
+sampleSpaceRouter.get<{ id: number }, SampleSpace, {}>(
   "/:id",
   async (req, res, next) => {
-    let sampleSpace = await getById(Number(req.params.id));
+    let sampleSpace = await getById(req.params.id);
     if (!sampleSpace) {
       res.status(404);
       return next(new ApiError(`Sample Space Id: ${req.params.id} not found`));
@@ -45,3 +45,4 @@ sampleSpaceRouter.put<{  }, number, SampleSpace>(
   }
 )
 
+export default sampleSpaceRouter;
