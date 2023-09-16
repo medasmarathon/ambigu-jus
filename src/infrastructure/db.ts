@@ -15,20 +15,20 @@ const dbClient = new MongoClient(mongoDbUri);
 function probabilityDatabase() {
   return dbClient.db(DATABASE_NAME);
 }
-async function sampleSpaceCollection(name: string) {
+async function sampleSpaceCollection<T>() {
   let db = probabilityDatabase();
   let collectionList = await db.listCollections({
     name: COLLECTION_NAMES.SAMPLE_SPACES
   }).toArray();
   if (collectionList.length > 0) {
-    return db.collection(COLLECTION_NAMES.SAMPLE_SPACES);
+    return db.collection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
   }
 
-  let collection = await db.createCollection(COLLECTION_NAMES.SAMPLE_SPACES);
+  let collection = await db.createCollection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
   return collection;
 }
 
-async function outcomeCollection(name: string, sampleSpaceName: string) {
+async function outcomeCollection(sampleSpaceName: string) {
   let db = probabilityDatabase();
   let collectionList = await db.listCollections({
     name: `${COLLECTION_NAMES.OUTCOMES}_${sampleSpaceName}`
@@ -41,7 +41,7 @@ async function outcomeCollection(name: string, sampleSpaceName: string) {
   return collection;
 }
 
-async function eventCollection(name: string, sampleSpaceName: string) {
+async function eventCollection(sampleSpaceName: string) {
   let db = probabilityDatabase();
   let collectionList = await db.listCollections({
     name: `${COLLECTION_NAMES.EVENTS}_${sampleSpaceName}`
