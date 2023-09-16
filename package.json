@@ -10,6 +10,7 @@
     "@types/node": "^20.6.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.4",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.2.2"
   },
@@ -21,6 +22,7 @@
   },
   "scripts": {
     "dev": "tsc && NODE_ENV=development ts-node src/index.ts",
+    "watch": "NODE_ENV=development tsc-watch --onSuccess \"node ./dist/index\"",
     "build": "tsc"
   }
 }

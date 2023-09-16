@@ -16,9 +16,13 @@ async function create(sampleSpace: SampleSpace) {
 
 async function update(sampleSpace: SampleSpace) {  
   let collection = await sampleSpaceCollection<SampleSpace>();
+  let id = sampleSpace.id;
+  delete sampleSpace.id;
   return await collection.updateOne(
-    { _id: new ObjectId(sampleSpace.id) },
-    sampleSpace
+    { _id: new ObjectId(id) },
+    {
+      $set: { ...sampleSpace }
+    },
   )
 }
 

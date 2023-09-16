@@ -2,6 +2,7 @@ import { ApiError, getErrorMessage } from "@app/infrastructure/utility/api-error
 import { SampleSpace } from "@app/models/sample-space";
 import { create, deleteById, getById, update } from "@app/repositories/sample-space.repo";
 import express from "express";
+import { InsertOneResult, UpdateResult } from "mongodb";
 
 const sampleSpaceRouter = express.Router();
 
@@ -23,12 +24,12 @@ sampleSpaceRouter.get<{ id: string }, SampleSpace, {}>(
   }
 )
 
-sampleSpaceRouter.post<{  }, string, SampleSpace>(
+sampleSpaceRouter.post<{  }, InsertOneResult, SampleSpace>(
   "/",
   async (req, res, next) => {
     try {
-      let sampleSpace = await create(req.body);
-      res.status(201).send(sampleSpace.insertedId.toString());
+      let result = await create(req.body);
+      res.status(201).send(result);
     }
     catch (err) {
       res.status(400);
@@ -37,12 +38,12 @@ sampleSpaceRouter.post<{  }, string, SampleSpace>(
   }
 )
 
-sampleSpaceRouter.put<{  }, string, SampleSpace>(
+sampleSpaceRouter.put<{  }, UpdateResult, SampleSpace>(
   "/",
   async (req, res, next) => {
     try {
       let result = await update(req.body);
-      res.status(201).send(result.upsertedId.toString());
+      res.status(201).send(result);
     }
     catch (err) {
       res.status(400);

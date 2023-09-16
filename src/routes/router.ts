@@ -4,7 +4,7 @@ import sampleSpaceRouter from "./api/sample-space.routes";
 const mainRouter = express.Router();
 
 mainRouter.use("/", (req, res, next) => {
-  console.log("Request at:" + req.url);
+  console.log("Request at: " + req.url);
   next();
 });
 mainRouter.use("/api/sample-space", sampleSpaceRouter);
