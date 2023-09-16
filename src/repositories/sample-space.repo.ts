@@ -1,24 +1,30 @@
 import { sampleSpaceCollection } from "@app/infrastructure/db"
+import { toModel } from "@app/infrastructure/utility/mongo-to-model";
 import { SampleSpace } from "@app/models/sample-space"
+import { ObjectId } from "mongodb";
 
-async function getById(id: number) {
+async function getById(id: string) {
   let collection = await sampleSpaceCollection<SampleSpace>();
-  return await collection.findOne({
-    _id: id
-  })
+  return toModel(await collection.findOne({ _id: new ObjectId(id) }));
 }
 
 async function create(sampleSpace: SampleSpace) {  
   let collection = await sampleSpaceCollection<SampleSpace>();
+  delete sampleSpace.id;
   return await collection.insertOne(sampleSpace);
 }
 
 async function update(sampleSpace: SampleSpace) {  
   let collection = await sampleSpaceCollection<SampleSpace>();
   return await collection.updateOne(
-    { _id: sampleSpace._id },
+    { _id: new ObjectId(sampleSpace.id) },
     sampleSpace
   )
 }
 
-export { getById, create, update }
+async function deleteById(id: string) {  
+  let collection = await sampleSpaceCollection<SampleSpace>();
+  return await collection.deleteOne({ _id: new ObjectId(id) });
+}
+
+export { getById, create, update, deleteById }

@@ -1,4 +1,6 @@
+import { ObjectId } from "mongodb";
+
 export type SampleSpace = {
-  _id: number;
+  id: ObjectId;
   name: string;
 }

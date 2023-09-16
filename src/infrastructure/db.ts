@@ -17,15 +17,7 @@ function probabilityDatabase() {
 }
 async function sampleSpaceCollection<T>() {
   let db = probabilityDatabase();
-  let collectionList = await db.listCollections({
-    name: COLLECTION_NAMES.SAMPLE_SPACES
-  }).toArray();
-  if (collectionList.length > 0) {
-    return db.collection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
-  }
-
-  let collection = await db.createCollection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
-  return collection;
+  return db.collection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
 }
 
 async function outcomeCollection(sampleSpaceName: string) {

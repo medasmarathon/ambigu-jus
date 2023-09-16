@@ -20,7 +20,7 @@
     "mongodb": "^6.1.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=development ts-node -r tsconfig-paths/register src/index.ts",
+    "dev": "tsc && NODE_ENV=development ts-node src/index.ts",
     "build": "tsc"
   }
 }

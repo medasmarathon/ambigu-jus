@@ -1,28 +1,34 @@
 import { ApiError, getErrorMessage } from "@app/infrastructure/utility/api-error";
 import { SampleSpace } from "@app/models/sample-space";
-import { create, getById, update } from "@app/repositories/sample-space.repo";
+import { create, deleteById, getById, update } from "@app/repositories/sample-space.repo";
 import express from "express";
 
 const sampleSpaceRouter = express.Router();
 
-sampleSpaceRouter.get<{ id: number }, SampleSpace, {}>(
+sampleSpaceRouter.get<{ id: string }, SampleSpace, {}>(
   "/:id",
   async (req, res, next) => {
-    let sampleSpace = await getById(req.params.id);
-    if (!sampleSpace) {
-      res.status(404);
-      return next(new ApiError(`Sample Space Id: ${req.params.id} not found`));
+    try {
+      let sampleSpace = await getById(req.params.id);
+      if (!sampleSpace) {
+        res.status(404);
+        return next(new ApiError(`Sample Space Id: ${req.params.id} not found`));
+      }
+      res.status(200).send(sampleSpace);
     }
-    res.status(200).send(sampleSpace);
+    catch (err) {
+      res.status(400);
+      return next(new ApiError(`Cannot get Sample Space`, getErrorMessage(err)));
+    } 
   }
 )
 
-sampleSpaceRouter.post<{  }, number, SampleSpace>(
+sampleSpaceRouter.post<{  }, string, SampleSpace>(
   "/",
   async (req, res, next) => {
     try {
       let sampleSpace = await create(req.body);
-      res.status(201).send(sampleSpace.insertedId);
+      res.status(201).send(sampleSpace.insertedId.toString());
     }
     catch (err) {
       res.status(400);
@@ -31,17 +37,35 @@ sampleSpaceRouter.post<{  }, number, SampleSpace>(
   }
 )
 
-sampleSpaceRouter.put<{  }, number, SampleSpace>(
+sampleSpaceRouter.put<{  }, string, SampleSpace>(
   "/",
   async (req, res, next) => {
     try {
-      let sampleSpace = await update(req.body);
-      res.status(201).send(sampleSpace.upsertedId);
+      let result = await update(req.body);
+      res.status(201).send(result.upsertedId.toString());
     }
     catch (err) {
       res.status(400);
       return next(new ApiError(`Cannot update Sample Space`, getErrorMessage(err)));
     }    
+  }
+)
+
+sampleSpaceRouter.delete<{ id: string }, { deleted: number }, {}>(
+  "/:id",
+  async (req, res, next) => {
+    try {
+      let result = await deleteById(req.params.id);
+      if (!result) {
+        res.status(404);
+        return next(new ApiError(`Sample Space Id: ${req.params.id} not found`));
+      }
+      res.status(200).send({ deleted: result.deletedCount });
+    }
+    catch (err) {
+      res.status(400);
+      return next(new ApiError(`Cannot delete Sample Space`, getErrorMessage(err)));
+    }  
   }
 )
 
