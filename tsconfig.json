@@ -11,6 +11,7 @@
     "skipLibCheck": true,
     "outDir": "dist/",
     "baseUrl": ".",
+    "sourceMap": true,
     "paths": {
       "@app/*": [ "./src/*" ],
     }
