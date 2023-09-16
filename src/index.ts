@@ -7,8 +7,9 @@ console.log(process.env.NODE_ENV);
 config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 80;
 
+app.use(express.urlencoded({ extended: true }));
 app.use(mainRouter);
 app.get("/", (req, res) => {
   res.send("Express + TypeScript Server");
