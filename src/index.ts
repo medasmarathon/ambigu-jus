@@ -1,12 +1,15 @@
+import "module-alias/register";
 import express from "express";
 import { config } from "dotenv";
+import mainRouter from "@app/routes/router";
 
 console.log(process.env.NODE_ENV);
 config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 
+app.use(mainRouter);
 app.get("/", (req, res) => {
   res.send("Express + TypeScript Server");
 });

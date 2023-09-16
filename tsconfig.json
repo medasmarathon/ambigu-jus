@@ -1,13 +1,21 @@
 {
+  "ts-node": {
+    // Do not forget to `npm i -D tsconfig-paths`
+     "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "rootDir": "./",
-    "outDir": "dist/"
+    "skipLibCheck": true,
+    "outDir": "dist/",
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": [ "./src/*" ],
+    }
   },
   "include": [
-    "src/*"
+    "src/**/*"
   ]
 }
