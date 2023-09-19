@@ -1,8 +1,10 @@
+import { AppContext } from "@app/app-context";
 import { ApiError, getErrorMessage } from "@app/infrastructure/utility/api-error";
 import { SampleSpace } from "@app/models/sample-space";
 import { create, deleteById, getById, update } from "@app/repositories/sample-space.repo";
 import express from "express";
 import { InsertOneResult, UpdateResult } from "mongodb";
+import { andThen, ifElse, isNotNil, pipe } from "ramda";
 
 const sampleSpaceRouter = express.Router();
 
@@ -10,7 +12,7 @@ sampleSpaceRouter.get<{ id: string }, SampleSpace, {}>(
   "/:id",
   async (req, res, next) => {
     try {
-      let sampleSpace = await getById(req.params.id);
+      let sampleSpace = await getById(AppContext.Db, req.params.id);
       if (!sampleSpace) {
         res.status(404);
         return next(new ApiError(`Sample Space Id: ${req.params.id} not found`));
@@ -28,7 +30,7 @@ sampleSpaceRouter.post<{  }, InsertOneResult, SampleSpace>(
   "/",
   async (req, res, next) => {
     try {
-      let result = await create(req.body);
+      let result = await create(AppContext.Db, req.body);
       res.status(201).send(result);
     }
     catch (err) {
@@ -42,7 +44,7 @@ sampleSpaceRouter.put<{  }, UpdateResult, SampleSpace>(
   "/",
   async (req, res, next) => {
     try {
-      let result = await update(req.body);
+      let result = await update(AppContext.Db, req.body);
       res.status(201).send(result);
     }
     catch (err) {
@@ -56,7 +58,7 @@ sampleSpaceRouter.delete<{ id: string }, { deleted: number }, {}>(
   "/:id",
   async (req, res, next) => {
     try {
-      let result = await deleteById(req.params.id);
+      let result = await deleteById(AppContext.Db, req.params.id);
       if (!result) {
         res.status(404);
         return next(new ApiError(`Sample Space Id: ${req.params.id} not found`));

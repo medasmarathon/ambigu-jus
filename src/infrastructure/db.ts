@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
+import { curry } from "ramda";
 
-const DATABASE_NAME = "probability";
 
 const COLLECTION_NAMES = {
   SAMPLE_SPACES: "sampleSpaces",
@@ -8,18 +8,11 @@ const COLLECTION_NAMES = {
   EVENTS: "events",
 };
 
-const mongoDbUri = "mongodb://localhost:27017";
-
-const dbClient = new MongoClient(mongoDbUri);
-
-const probabilityDatabase = ({ Db }: { Db: MongoClient }) => {
-  return Db.db(DATABASE_NAME);
-}
-const sampleSpaceCollection = (db: Db) => async <T>() => {
+const sampleSpaceCollection = async <T>(db: Db) => {
   return db.collection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
 }
 
-const outcomeCollection = (db: Db) => async (sampleSpaceName: string) => {
+const outcomeCollection = curry(async (db: Db, sampleSpaceName: string) => {
   let collectionList = await db.listCollections({
     name: COLLECTION_NAMES.OUTCOMES
   }).toArray();
@@ -29,9 +22,9 @@ const outcomeCollection = (db: Db) => async (sampleSpaceName: string) => {
 
   let collection = await db.createCollection(COLLECTION_NAMES.OUTCOMES);
   return collection;
-}
+})
 
-const eventCollection = (db: Db) => async (sampleSpaceName: string) => {
+const eventCollection = curry(async (db: Db, sampleSpaceName: string) => {
   let collectionList = await db.listCollections({
     name: COLLECTION_NAMES.EVENTS
   }).toArray();
@@ -41,6 +34,6 @@ const eventCollection = (db: Db) => async (sampleSpaceName: string) => {
 
   let collection = await db.createCollection(COLLECTION_NAMES.EVENTS);
   return collection;
-}
+})
 
-export { dbClient, sampleSpaceCollection, outcomeCollection, eventCollection };
+export { sampleSpaceCollection, outcomeCollection, eventCollection };
