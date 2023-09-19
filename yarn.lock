@@ -190,6 +190,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ramda@npm:^0.29.4":
+  version: 0.29.4
+  resolution: "@types/ramda@npm:0.29.4"
+  dependencies:
+    types-ramda: ^0.29.4
+  checksum: ff373b32ed83f2b2287c05a1357224a0ee62e99b569b35f03059eb6657bb1190f0fc81e7c49c3f0c8897fbe8b7619848288096a91cf94ed574df971b91c71de3
+  languageName: node
+  linkType: hard
+
 "@types/range-parser@npm:*":
   version: 1.2.4
   resolution: "@types/range-parser@npm:1.2.4"
@@ -302,11 +311,13 @@ __metadata:
   dependencies:
     "@types/express": ^4.17.17
     "@types/node": ^20.6.0
+    "@types/ramda": ^0.29.4
     dotenv: ^16.3.1
     express: ^4.18.2
     module-alias: ^2.2.3
     mongodb: ^6.1.0
     nodemon: ^3.0.1
+    ramda: ^0.29.0
     ts-node: ^10.9.1
     tsc-watch: ^6.0.4
     tsconfig-paths: ^4.2.0
@@ -1768,6 +1779,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ramda@npm:^0.29.0":
+  version: 0.29.0
+  resolution: "ramda@npm:0.29.0"
+  checksum: 9ab26c06eb7545cbb7eebcf75526d6ee2fcaae19e338f165b2bf32772121e7b28192d6664d1ba222ff76188ba26ab307342d66e805dbb02c860560adc4d5dd57
+  languageName: node
+  linkType: hard
+
 "range-parser@npm:~1.2.1":
   version: 1.2.1
   resolution: "range-parser@npm:1.2.1"
@@ -2185,6 +2203,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-toolbelt@npm:^9.6.0":
+  version: 9.6.0
+  resolution: "ts-toolbelt@npm:9.6.0"
+  checksum: 9f35fd95d895a5d32ea9fd2e532a695b0bae6cbff6832b77292efa188a0ed1ed6e54f63f74a8920390f3d909a7a3adb20a144686372a8e78b420246a9bd3d58a
+  languageName: node
+  linkType: hard
+
 "tsc-watch@npm:^6.0.4":
   version: 6.0.4
   resolution: "tsc-watch@npm:6.0.4"
@@ -2219,6 +2244,15 @@ __metadata:
     media-typer: 0.3.0
     mime-types: ~2.1.24
   checksum: 2c8e47675d55f8b4e404bcf529abdf5036c537a04c2b20177bcf78c9e3c1da69da3942b1346e6edb09e823228c0ee656ef0e033765ec39a70d496ef601a0c657
+  languageName: node
+  linkType: hard
+
+"types-ramda@npm:^0.29.4":
+  version: 0.29.4
+  resolution: "types-ramda@npm:0.29.4"
+  dependencies:
+    ts-toolbelt: ^9.6.0
+  checksum: 08a872e71555fe6a3f1fd9381989a573d493f2156d9689f3bb72278db73c848122d67a9efff1867ce97b3dfbb2fdadaa3864daaee014ab19cf9bbfe2c171ed52
   languageName: node
   linkType: hard
 

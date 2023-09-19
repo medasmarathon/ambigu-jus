@@ -1,20 +1,24 @@
-import { sampleSpaceCollection } from "@app/infrastructure/db"
+import { sampleSpaceCollection, } from "@app/infrastructure/db"
 import { toModel } from "@app/infrastructure/utility/mongo-to-model";
 import { SampleSpace } from "@app/models/sample-space"
-import { ObjectId } from "mongodb";
+import { Db, ObjectId } from "mongodb";
+import { pipe } from "types-ramda";
 
-async function getById(id: string) {
+const getById = (db: Db) => async (id: string) => {
+  pipe(
+    probabilityDatabase
+  )
   let collection = await sampleSpaceCollection<SampleSpace>();
   return toModel(await collection.findOne({ _id: new ObjectId(id) }));
 }
 
-async function create(sampleSpace: SampleSpace) {  
+const create = (db: Db) => async (sampleSpace: SampleSpace) => {  
   let collection = await sampleSpaceCollection<SampleSpace>();
   delete sampleSpace.id;
   return await collection.insertOne(sampleSpace);
 }
 
-async function update(sampleSpace: SampleSpace) {  
+const update = (db: Db) => async (sampleSpace: SampleSpace) => {  
   let collection = await sampleSpaceCollection<SampleSpace>();
   let id = sampleSpace.id;
   delete sampleSpace.id;
@@ -26,7 +30,7 @@ async function update(sampleSpace: SampleSpace) {
   )
 }
 
-async function deleteById(id: string) {  
+const deleteById = (db: Db) => async (id: string) => {  
   let collection = await sampleSpaceCollection<SampleSpace>();
   return await collection.deleteOne({ _id: new ObjectId(id) });
 }

@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 
 const DATABASE_NAME = "probability";
 
@@ -12,37 +12,34 @@ const mongoDbUri = "mongodb://localhost:27017";
 
 const dbClient = new MongoClient(mongoDbUri);
 
-function probabilityDatabase() {
-  return dbClient.db(DATABASE_NAME);
+const probabilityDatabase = ({ Db }: { Db: MongoClient }) => {
+  return Db.db(DATABASE_NAME);
 }
-async function sampleSpaceCollection<T>() {
-  let db = probabilityDatabase();
+const sampleSpaceCollection = (db: Db) => async <T>() => {
   return db.collection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
 }
 
-async function outcomeCollection(sampleSpaceName: string) {
-  let db = probabilityDatabase();
+const outcomeCollection = (db: Db) => async (sampleSpaceName: string) => {
   let collectionList = await db.listCollections({
-    name: `${COLLECTION_NAMES.OUTCOMES}_${sampleSpaceName}`
+    name: COLLECTION_NAMES.OUTCOMES
   }).toArray();
   if (collectionList.length > 0) {
-    return db.collection(`${COLLECTION_NAMES.OUTCOMES}_${sampleSpaceName}`);
+    return db.collection(COLLECTION_NAMES.OUTCOMES);
   }
 
-  let collection = await db.createCollection(`${COLLECTION_NAMES.OUTCOMES}_${sampleSpaceName}`);
+  let collection = await db.createCollection(COLLECTION_NAMES.OUTCOMES);
   return collection;
 }
 
-async function eventCollection(sampleSpaceName: string) {
-  let db = probabilityDatabase();
+const eventCollection = (db: Db) => async (sampleSpaceName: string) => {
   let collectionList = await db.listCollections({
-    name: `${COLLECTION_NAMES.EVENTS}_${sampleSpaceName}`
+    name: COLLECTION_NAMES.EVENTS
   }).toArray();
   if (collectionList.length > 0) {
-    return db.collection(`${COLLECTION_NAMES.EVENTS}_${sampleSpaceName}`);
+    return db.collection(COLLECTION_NAMES.EVENTS);
   }
 
-  let collection = await db.createCollection(`${COLLECTION_NAMES.EVENTS}_${sampleSpaceName}`);
+  let collection = await db.createCollection(COLLECTION_NAMES.EVENTS);
   return collection;
 }
 
