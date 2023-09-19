@@ -4,7 +4,6 @@ import { SampleSpace } from "@app/models/sample-space";
 import { create, deleteById, getById, update } from "@app/repositories/sample-space.repo";
 import express from "express";
 import { InsertOneResult, UpdateResult } from "mongodb";
-import { andThen, ifElse, isNotNil, pipe } from "ramda";
 
 const sampleSpaceRouter = express.Router();
 
