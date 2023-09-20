@@ -315,9 +315,11 @@ __metadata:
     dotenv: ^16.3.1
     express: ^4.18.2
     module-alias: ^2.2.3
+    monet: ^0.9.3
     mongodb: ^6.1.0
     nodemon: ^3.0.1
     ramda: ^0.29.0
+    ramda-adjunct: ^4.1.1
     ts-node: ^10.9.1
     tsc-watch: ^6.0.4
     tsconfig-paths: ^4.2.0
@@ -1476,6 +1478,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"monet@npm:^0.9.3":
+  version: 0.9.3
+  resolution: "monet@npm:0.9.3"
+  checksum: b30af2538876f8c512127519982d115c98efba00c80799dd163bc8f3a0ada29a8f9edc7241af33c012abb4cae2cf70693671a2793feae0fcda4502ca8d9afb49
+  languageName: node
+  linkType: hard
+
 "mongodb-connection-string-url@npm:^2.6.0":
   version: 2.6.0
   resolution: "mongodb-connection-string-url@npm:2.6.0"
@@ -1776,6 +1785,15 @@ __metadata:
   dependencies:
     side-channel: ^1.0.4
   checksum: 6e1f29dd5385f7488ec74ac7b6c92f4d09a90408882d0c208414a34dd33badc1a621019d4c799a3df15ab9b1d0292f97c1dd71dc7c045e69f81a8064e5af7297
+  languageName: node
+  linkType: hard
+
+"ramda-adjunct@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "ramda-adjunct@npm:4.1.1"
+  peerDependencies:
+    ramda: ">= 0.29.0"
+  checksum: 7cdae1129987afac3d2ab9188b62f949558f86ad14ef76b898bacf065da5542e213e53cb01f064444ad634dfa668148cd3351726017a11dfe141b6b4c3552808
   languageName: node
   linkType: hard
 
