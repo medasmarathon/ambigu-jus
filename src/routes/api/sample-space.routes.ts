@@ -1,6 +1,6 @@
 import { AppContext } from "@app/app-context";
 import { ApiError, getErrorMessage } from "@app/infrastructure/utility/api-error";
-import { SampleSpace } from "@app/models/sample-space";
+import { SampleSpace } from "@app/entities/sample-space";
 import { create, deleteById, getById, update } from "@app/repositories/sample-space.repo";
 import express from "express";
 import { InsertOneResult, UpdateResult } from "mongodb";

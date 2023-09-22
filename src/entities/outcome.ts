@@ -1,4 +1,4 @@
 export type Outcome = {
-  _id: number;
+  id: string;
   name: string;
 }

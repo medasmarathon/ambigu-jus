@@ -1,6 +1,6 @@
-import { sampleSpaceCollection, } from "@app/infrastructure/db"
+import { sampleSpaceCollection, } from "@app/infrastructure/persistence/db"
 import { toModel } from "@app/infrastructure/utility/mongo-to-model";
-import { SampleSpace } from "@app/models/sample-space"
+import { SampleSpace } from "@app/entities/sample-space"
 import { Db, ObjectId } from "mongodb";
 import { pipe, curry, andThen, map } from "ramda";
 
