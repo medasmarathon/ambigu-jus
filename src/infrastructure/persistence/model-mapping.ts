@@ -66,8 +66,8 @@ const toConditional = (ev: EventModel) => {
       { id: String(ev.conditionEventId) } as $Event : undefined,
   } as ConditionalEvent & EventModel;
   delete orEv._id;
-  delete orEv.ancestorIds;
-  delete orEv.subEventIds;
+  delete orEv.subjectEventId;
+  delete orEv.conditionEventId;
 
   return orEv as ConditionalEvent;
 }
