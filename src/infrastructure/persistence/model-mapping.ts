@@ -1,4 +1,4 @@
-import { T, assoc, cond, dissoc, pick, pipe, prop, tap } from "ramda"
+import { T, cond } from "ramda"
 import { EventModel, isAndEvent, isAtomicEvent, isConditionalEvent, isOrEvent } from "./models/event-model"
 import { AtomicEvent, $Event, AndEvent, OrEvent, AnyEvent, ConditionalEvent } from "@app/entities/event"
 import { Outcome } from "@app/entities/outcome";
@@ -73,9 +73,12 @@ const toConditional = (ev: EventModel) => {
 }
 
 export const toEntity = (model: EventModel) => {
-  if (isAtomicEvent(model)) return toAtomic(model);
-  if (isAndEvent(model)) return toAnd(model);
-  if (isOrEvent(model)) return toOr(model);
-  if (isConditionalEvent(model)) return toConditional(model);
+  return cond<EventModel[], AtomicEvent | AndEvent | OrEvent | ConditionalEvent | undefined>([
+    [isAtomicEvent, toAtomic],
+    [isAndEvent, toAnd],
+    [isOrEvent, toOr],
+    [isConditionalEvent, toConditional],
+    [T, () => undefined]
+  ])(model)
 }
 
