@@ -12,19 +12,19 @@ const sampleSpaceCollection = async <T>(db: Db) => {
   return db.collection<T>(COLLECTION_NAMES.SAMPLE_SPACES);
 }
 
-const outcomeCollection = curry(async (db: Db, sampleSpaceName: string) => {
+const outcomeCollection = async <T>(db: Db) => {
   let collectionList = await db.listCollections({
     name: COLLECTION_NAMES.OUTCOMES
   }).toArray();
   if (collectionList.length > 0) {
-    return db.collection(COLLECTION_NAMES.OUTCOMES);
+    return db.collection<T>(COLLECTION_NAMES.OUTCOMES);
   }
 
-  let collection = await db.createCollection(COLLECTION_NAMES.OUTCOMES);
+  let collection = await db.createCollection<T>(COLLECTION_NAMES.OUTCOMES);
   return collection;
-})
+}
 
-const eventCollection = curry(async (db: Db, sampleSpaceName: string) => {
+const eventCollection = async (db: Db) => {
   let collectionList = await db.listCollections({
     name: COLLECTION_NAMES.EVENTS
   }).toArray();
@@ -34,6 +34,6 @@ const eventCollection = curry(async (db: Db, sampleSpaceName: string) => {
 
   let collection = await db.createCollection(COLLECTION_NAMES.EVENTS);
   return collection;
-})
+}
 
 export { sampleSpaceCollection, outcomeCollection, eventCollection };
