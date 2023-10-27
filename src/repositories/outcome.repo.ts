@@ -1,13 +1,13 @@
 import { allP } from 'ramda-adjunct';
 import { outcomeCollection, sampleSpaceCollection, } from "@app/infrastructure/persistence/db"
 import { Db, ObjectId } from "mongodb";
-import { pipe, curry, andThen, map, converge, ifElse, isNotNil, __ } from "ramda";
+import { pipe, curry, andThen, map, converge, ifElse, isNotNil, __, T } from "ramda";
 import { tapDebug } from "@app/infrastructure/utility/tap-debug";
 import { OutcomeModel } from "@app/infrastructure/persistence/models/outcome-model";
 import { Outcome } from "@app/entities/outcome";
 import { toEntity, toModel } from "@app/infrastructure/persistence/outcome-mapping";
-import { SampleSpaceModel } from "@app/infrastructure/persistence/models/sample-space-model";
 import * as sampleSpaceRepo from "@app/repositories/sample-space.repo";
+import { SampleSpace } from '@app/entities/sample-space';
 
 const getOutcomeModelById = curry(async (db: Db, id: string) => pipe(
   outcomeCollection<OutcomeModel>,
@@ -16,12 +16,13 @@ const getOutcomeModelById = curry(async (db: Db, id: string) => pipe(
 
 const getById = curry(async (db: Db, id: string) => {
   let outcomeModel = await getOutcomeModelById(db)(id);
-  let sampleSpace = await sampleSpaceRepo.getById(db)(String(outcomeModel.sampleSpaceId));
+  let sampleSpace: SampleSpace;
+  if (outcomeModel.sampleSpaceId)
+    sampleSpace = await sampleSpaceRepo.getById(db)(String(outcomeModel.sampleSpaceId));
   return toEntity(outcomeModel, sampleSpace);
 })
 
-const create = curry(async (db: Db, outcome: Outcome) => {  
-  delete outcome.id;
+const create = curry(async (db: Db, outcome: Outcome) => {
   return await pipe(
     outcomeCollection<OutcomeModel>,
     andThen(c => c.insertOne(toModel(outcome)))
@@ -29,23 +30,21 @@ const create = curry(async (db: Db, outcome: Outcome) => {
 })
 
 const update = curry(async (db: Db, outcome: Outcome) => {
-  let { id, sampleSpace } = outcome;
-  delete outcome.id;
-  delete outcome.sampleSpace;
+  let model = toModel(outcome);
   let outcomeResult = pipe(
     outcomeCollection<OutcomeModel>,
     andThen(c => c.updateOne(
-      { _id: new ObjectId(id) },
+      { _id: model._id },
       {
-        $set: { ...outcome }
+        $set: model
       },
     ))
   )(db);
   let results = await allP([
     outcomeResult,
-    sampleSpaceRepo.upsert(db)(sampleSpace)
+    outcome.sampleSpace ? sampleSpaceRepo.upsert(db)(outcome.sampleSpace) : Promise.resolve(null)
   ]);
-  return results;
+  return outcomeResult;
 })
 
 const deleteById = curry(async (db: Db, id: string) => {

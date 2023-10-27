@@ -1,7 +1,7 @@
 import { SampleSpace } from "./sample-space";
 
 export type Outcome = {
-  id: string;
+  id?: string;
   name: string;
   sampleSpace?: SampleSpace
 }

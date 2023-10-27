@@ -14,8 +14,7 @@ const getById = curry(async (db: Db, id: string) => {
   )(db);
 })
 
-const create = curry(async (db: Db, sampleSpace: SampleSpace) => {  
-  delete sampleSpace.id;
+const create = curry(async (db: Db, sampleSpace: SampleSpace) => { 
   return await pipe(
     sampleSpaceCollection<SampleSpaceModel>,
     andThen(c => c.insertOne(toModel(sampleSpace)))
@@ -23,14 +22,13 @@ const create = curry(async (db: Db, sampleSpace: SampleSpace) => {
 })
 
 const update = curry(async (db: Db, sampleSpace: SampleSpace) => {
-  let { id } = sampleSpace;
-  delete sampleSpace.id;
+  let model = toModel(sampleSpace);
   return await pipe(
     sampleSpaceCollection<SampleSpaceModel>,
     andThen(c => c.updateOne(
-      { _id: new ObjectId(id) },
+      { _id: model._id },
       {
-        $set: { ...sampleSpace }
+        $set: model
       },
     ))
   )(db);
